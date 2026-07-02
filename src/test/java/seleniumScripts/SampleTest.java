@@ -7,6 +7,7 @@ public class SampleTest
 		System.out.println("Starting the test");
 		System.out.println("Hello World");
 		System.out.println("Executing the test");
+		System.out.println("Thank You");
 	}
 
 }
