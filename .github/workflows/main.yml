@@ -1,0 +1,45 @@
+name: Swag Labs Automation CI
+
+# Controls when the workflow will run
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  schedule:
+    # Optional: Automatically runs every day at midnight UTC
+    - cron: '0 0 * * *' 
+  workflow_dispatch: # Allows you to trigger the tests manually from the GitHub UI
+
+jobs:
+  test-automation:
+    # Use Ubuntu (Linux) runner which comes with Chrome and Firefox pre-installed
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Clone the repository code onto the GitHub runner
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Step 2: Set up Java Environment
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: 'maven' # Automatically caches Maven dependencies to make future runs faster
+
+    # Step 3: Run the Selenium Tests via Maven
+    # The headless flags in your Java code will ensure Chrome runs seamlessly on this runner
+    - name: Execute Swag Labs Tests
+      run: mvn clean test
+
+    # Step 4: Archive Test Reports if the build fails or succeeds
+    - name: Publish Test Report Artifacts
+      if: always() # Ensures reports are uploaded even if tests fail
+      uses: actions/upload-artifact@v4
+      with:
+        name: testng-execution-reports
+        path: |
+          target/surefire-reports/
+          target/site/
