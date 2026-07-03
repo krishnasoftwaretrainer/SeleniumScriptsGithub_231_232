@@ -4,16 +4,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 
 public class SwagBlankLogin
 {
 	WebDriver driver;
+	ChromeOptions options;
 	
 	@BeforeMethod
 	public void BrowserLaunch() throws InterruptedException
 	{
-		driver=new ChromeDriver();
+		options = new ChromeOptions();
+		options.addArguments("--headless","disable-gpu");
+		driver=new ChromeDriver(options);
 		driver.manage().window().maximize();
 		driver.get("https://www.saucedemo.com/");
 		Thread.sleep(2000);
@@ -40,6 +44,7 @@ public class SwagBlankLogin
 		{
 			driver.close();
 		}
+		System.out.println("Test Completed Successfully");
 	}
 
 }

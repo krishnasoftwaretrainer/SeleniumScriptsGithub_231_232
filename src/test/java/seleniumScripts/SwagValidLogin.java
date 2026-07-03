@@ -4,16 +4,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.*;
 
 public class SwagValidLogin
 {
 	WebDriver driver;
-	
+	ChromeOptions options;
 	@BeforeMethod
 	public void BrowserLaunch() throws InterruptedException
 	{
-		driver=new ChromeDriver();
+		 options=new ChromeOptions();
+		options.addArguments("--headless");
+		driver=new ChromeDriver(options);
 		driver.manage().window().maximize();
 		driver.get("https://www.saucedemo.com/");
 		Thread.sleep(2000);
